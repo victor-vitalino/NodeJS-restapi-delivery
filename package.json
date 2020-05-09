@@ -1,19 +1,27 @@
 {
-  "name": "fastfeet",
+  "name": "delivery",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "bee-queue": "^1.2.3",
+    "date-fns": "^2.12.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-handlebars": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.4.6",
+    "nodemailer-express-handlebars": "^4.0.0",
     "pg": "^8.0.2",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.6",
     "yup": "^0.28.3"
   },
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "queue": "nodemon src/QueueIndex.js"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
