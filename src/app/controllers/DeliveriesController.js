@@ -9,22 +9,26 @@ class Deliveries {
     async index(req, res) {
         const { id } = req.params;
         const { delivered = false } = req.body;
+        const { page = 1 } = req.query;
 
         /**
          * se o delivered for true ele busca o que for diferente de nulo
          * se for false busca o que for igual a nulo
          */
-        const condition = delivered ? Op.ne : Op.eq;
+        const conditionDelivered = delivered ? Op.ne : Op.eq;
 
         const deliveryman = await Deliveryman.findByPk(id);
         if (!deliveryman)
             return res.status(400).json({ error: 'Deliveryman not found' });
 
+        const limit = 20;
         const deliveries = await Delivery.findAll({
+            limit,
+            offset: (page - 1) * limit,
             where: {
                 deliveryman_id: id,
                 end_date: {
-                    [condition]: null,
+                    [conditionDelivered]: null,
                 },
             },
         });

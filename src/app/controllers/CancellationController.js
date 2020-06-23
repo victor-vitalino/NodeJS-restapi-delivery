@@ -9,6 +9,7 @@ import CancellationMail from '../jobs/CancellationMail';
 class CancellationController {
     async destroy(req, res) {
         const { id } = req.params;
+
         const problem = await Problem.findByPk(id, { raw: true });
         if (!problem)
             return res.status(400).json({ error: 'Problem not found' });

@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 
+import { Op } from 'sequelize';
 import Delivery from '../models/Delivery';
 import Signature from '../models/Signature';
 import Deliveryman from '../models/Deliveryman';
@@ -10,10 +11,18 @@ import NewDeliveryMail from '../jobs/NewDeliveryMail';
 
 class DeliveryController {
     async index(req, res) {
-        const { page = 1 } = req.query;
+        const { page = 1, product } = req.query;
+
+        const conditionProduct = product ? Op.like : Op.iLike;
+
         const deliveries = await Delivery.findAll({
             limit: 20,
             offset: (page - 1) * 20,
+            where: {
+                product: {
+                    [conditionProduct]: `%${product}%`,
+                },
+            },
             attributes: [
                 'id',
                 'product',
@@ -21,6 +30,7 @@ class DeliveryController {
                 'start_date',
                 'end_date',
             ],
+
             include: [
                 {
                     model: Recipient,
